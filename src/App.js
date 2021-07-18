@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState, useEffect } from "react";
+import "./style.css";
 function App() {
+  useEffect(() => {
+    FetchData();
+  }, []);
+  const [isData, SetData] = useState([]);
+  const FetchData = async () => {
+    const res = await fetch("https://type.fit/api/quotes");
+    const data = await res.json();
+    const random = Math.floor(Math.random() * data.length);
+    console.log(data[random]);
+    console.log(random);
+    SetData(data[random]);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>"{isData.text}"</h3>
+      <p>"{isData.author ? isData.author : ""}"</p>
     </div>
   );
 }
